@@ -1,7 +1,10 @@
-﻿namespace WarehouseAPI.DAL.Models.Abstract
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace WarehouseAPI.DAL.Models.Abstract
 {
-    public class BaseEntity : IBaseEntity
+    public abstract class BaseEntity : IBaseEntity
     {
+        [Required]
         public int Id { get; set; }
     }
 }

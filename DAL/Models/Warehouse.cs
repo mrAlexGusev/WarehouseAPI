@@ -1,10 +1,14 @@
-﻿using WarehouseAPI.DAL.Models.Abstract;
+﻿using System.ComponentModel.DataAnnotations;
+using WarehouseAPI.DAL.Models.Abstract;
 
 namespace WarehouseAPI.DAL.Models
 {
     public class Warehouse : NamedEntity
     {
-        public string Address { get; set; }
-        public string ContactPhone { get; set; }
+        [StringLength(200)]
+        public string? Address { get; set; }
+
+        [Phone]
+        public string? ContactPhone { get; set; }
     }
 }
