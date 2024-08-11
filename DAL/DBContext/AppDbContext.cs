@@ -7,7 +7,7 @@ namespace WarehouseAPI.DAL.DBContext
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) 
         {
-            Database.EnsureCreatedAsync();
+
         }
 
         public DbSet<Product> Products { get; set; }
