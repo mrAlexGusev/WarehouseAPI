@@ -1,5 +1,8 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
+using WarehouseAPI.BL.Services.Interfaces;
+using WarehouseAPI.BL.Services;
+using WarehouseAPI.DAL.Data.Repositories;
+using WarehouseAPI.DAL.Data.Repositories.Abstract;
 using WarehouseAPI.DAL.DBContext;
 
 namespace WarehouseAPI
@@ -13,8 +16,15 @@ namespace WarehouseAPI
             builder.Services.AddDbContext<AppDbContext>(options =>
                 options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-            var app = builder.Build();
+            builder.Services.AddScoped<IWarehouseRepository, WarehouseRepository>();
+            builder.Services.AddScoped<IStockRepository, StockRepository>();
+            builder.Services.AddScoped<IProductRepository, ProductRepository>();
 
+            builder.Services.AddScoped<IWarehouseService, WarehouseService>();
+            builder.Services.AddScoped<IStockService, StockService>();
+            builder.Services.AddScoped<IProductService, ProductService>();
+
+            var app = builder.Build();
         }
     }
 }
