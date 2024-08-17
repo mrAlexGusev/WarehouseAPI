@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using WarehouseAPI.DAL.Data.Repositories.Abstract;
 using WarehouseAPI.DAL.DBContext;
-using WarehouseAPI.DAL.Models;
+using WarehouseAPI.DAL.Entities;
 
 namespace WarehouseAPI.DAL.Data.Repositories
 {

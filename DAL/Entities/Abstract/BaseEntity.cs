@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace WarehouseAPI.DAL.Models.Abstract
+namespace WarehouseAPI.DAL.Entities.Abstract
 {
     public abstract class BaseEntity : IBaseEntity
     {

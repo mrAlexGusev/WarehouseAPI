@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
-using WarehouseAPI.BL.Services.Interfaces;
 using WarehouseAPI.BL.Services;
+using WarehouseAPI.BL.Services.Interfaces;
 using WarehouseAPI.DAL.Data.Repositories;
 using WarehouseAPI.DAL.Data.Repositories.Abstract;
 using WarehouseAPI.DAL.DBContext;
@@ -24,6 +24,8 @@ namespace WarehouseAPI
             builder.Services.AddScoped<IStockService, StockService>();
             builder.Services.AddScoped<IProductService, ProductService>();
 
+            builder.Services.AddAutoMapper(typeof(Program));
+            
             var app = builder.Build();
         }
     }

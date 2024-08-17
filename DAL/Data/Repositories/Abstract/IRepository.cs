@@ -1,4 +1,4 @@
-﻿using WarehouseAPI.DAL.Models.Abstract;
+﻿using WarehouseAPI.DAL.Entities.Abstract;
 
 namespace WarehouseAPI.DAL.Data.Repositories.Abstract
 {

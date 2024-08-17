@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using WarehouseAPI.DAL.Models;
+using WarehouseAPI.DAL.Entities;
 
 namespace WarehouseAPI.DAL.DBContext
 {

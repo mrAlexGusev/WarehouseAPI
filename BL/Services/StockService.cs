@@ -1,6 +1,6 @@
 ﻿using WarehouseAPI.BL.Services.Interfaces;
 using WarehouseAPI.DAL.Data.Repositories.Abstract;
-using WarehouseAPI.DAL.Models;
+using WarehouseAPI.DAL.Entities;
 
 namespace WarehouseAPI.BL.Services
 {
