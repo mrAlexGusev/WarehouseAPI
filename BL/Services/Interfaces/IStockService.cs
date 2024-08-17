@@ -1,4 +1,4 @@
-﻿using WarehouseAPI.DAL.Models;
+﻿using WarehouseAPI.DAL.Entities;
 
 namespace WarehouseAPI.BL.Services.Interfaces
 {

@@ -1,4 +1,4 @@
-﻿namespace WarehouseAPI.DAL.Models.Abstract
+﻿namespace WarehouseAPI.DAL.Entities.Abstract
 {
     public interface IBaseEntity
     {

@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WarehouseAPI.BL.Services.Interfaces;
-using WarehouseAPI.DAL.Models;
+using WarehouseAPI.DAL.Entities;
 
 namespace WarehouseAPI.API.Controllers
 {

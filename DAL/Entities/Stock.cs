@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using WarehouseAPI.DAL.Models.Abstract;
+using WarehouseAPI.DAL.Entities.Abstract;
 
-namespace WarehouseAPI.DAL.Models
+namespace WarehouseAPI.DAL.Entities
 {
     public class Stock : BaseEntity
     {
