@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
+using WarehouseAPI.API.Models;
+using WarehouseAPI.BL.Domain;
 using WarehouseAPI.BL.Services.Interfaces;
-using WarehouseAPI.DAL.Entities;
 
 namespace WarehouseAPI.API.Controllers
 {
@@ -9,45 +11,51 @@ namespace WarehouseAPI.API.Controllers
     public class StockController : ControllerBase
     {
         private readonly IStockService _stockService;
+        private readonly IMapper _mapper;
 
-        public StockController(IStockService stockService)
+        public StockController(IStockService stockService, IMapper mapper)
         {
             _stockService = stockService;
+            _mapper = mapper;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Stock>>> GetAll()
+        public async Task<ActionResult<IEnumerable<StockModel>>> GetAll()
         {
-            var stocks = await _stockService.GetAllAsync();
-            return Ok(stocks);
+            var stockDTOs = await _stockService.GetAllAsync();
+            var stockModels = _mapper.Map<IEnumerable<StockModel>>(stockDTOs);
+            return Ok(stockModels);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Stock>> GetById(int id)
+        public async Task<ActionResult<StockModel>> GetById(int id)
         {
-            var stock = await _stockService.GetByIdAsync(id);
-            if (stock == null)
+            var stockDTO = await _stockService.GetByIdAsync(id);
+            if (stockDTO == null)
             {
                 return NotFound();
             }
-            return Ok(stock);
+            var stockModel = _mapper.Map<StockModel>(stockDTO);
+            return Ok(stockModel);
         }
 
         [HttpPost]
-        public async Task<ActionResult> Add(Stock stock)
+        public async Task<ActionResult> Add(StockModel stockModel)
         {
-            await _stockService.AddAsync(stock);
-            return CreatedAtAction(nameof(GetById), new { id = stock.Id }, stock);
+            var stockDTO = _mapper.Map<StockDTO>(stockModel);
+            await _stockService.AddAsync(stockDTO);
+            return CreatedAtAction(nameof(GetById), new { id = stockModel.Id }, stockModel);
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult> Update(int id, Stock stock)
+        public async Task<ActionResult> Update(int id, StockModel stockModel)
         {
-            if (id != stock.Id)
+            if (id != stockModel.Id)
             {
                 return BadRequest();
             }
-            await _stockService.UpdateAsync(stock);
+            var stockDTO = _mapper.Map<StockDTO>(stockModel);
+            await _stockService.UpdateAsync(stockDTO);
             return NoContent();
         }
 
