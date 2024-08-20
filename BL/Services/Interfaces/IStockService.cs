@@ -1,13 +1,13 @@
-﻿using WarehouseAPI.DAL.Entities;
+﻿using WarehouseAPI.BL.Domain;
 
 namespace WarehouseAPI.BL.Services.Interfaces
 {
     public interface IStockService
     {
-        Task<IEnumerable<Stock>> GetAllAsync();
-        Task<Stock> GetByIdAsync(int id);
-        Task AddAsync(Stock entity);
-        Task UpdateAsync(Stock entity);
+        Task<IEnumerable<StockDTO>> GetAllAsync();
+        Task<StockDTO> GetByIdAsync(int id);
+        Task AddAsync(StockDTO entity);
+        Task UpdateAsync(StockDTO entity);
         Task DeleteAsync(int id);
     }
 }

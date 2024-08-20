@@ -1,13 +1,13 @@
-﻿using WarehouseAPI.DAL.Entities;
+﻿using WarehouseAPI.BL.Domain;
 
 namespace WarehouseAPI.BL.Services.Interfaces
 {
     public interface IWarehouseService
     {
-        Task<IEnumerable<Warehouse>> GetAllAsync();
-        Task<Warehouse> GetByIdAsync(int id);
-        Task AddAsync(Warehouse entity);
-        Task UpdateAsync(Warehouse entity);
+        Task<IEnumerable<WarehouseDTO>> GetAllAsync();
+        Task<WarehouseDTO> GetByIdAsync(int id);
+        Task AddAsync(WarehouseDTO entity);
+        Task UpdateAsync(WarehouseDTO entity);
         Task DeleteAsync(int id);
     }
 }

@@ -1,6 +1,7 @@
-﻿using WarehouseAPI.BL.Services.Interfaces;
+﻿using WarehouseAPI.BL.Domain;
+using WarehouseAPI.BL.Services.Interfaces;
 using WarehouseAPI.DAL.Data.Repositories.Abstract;
-using WarehouseAPI.DAL.Entities;
+using WarehouseAPI.Extensions;
 
 namespace WarehouseAPI.BL.Services
 {
@@ -13,24 +14,28 @@ namespace WarehouseAPI.BL.Services
             _stockRepository = stockRepository;
         }
 
-        public async Task<IEnumerable<Stock>> GetAllAsync()
+        public async Task<IEnumerable<StockDTO>> GetAllAsync()
         {
-            return await _stockRepository.GetAllAsync();
+            var stocks = await _stockRepository.GetAllAsync();
+            return stocks.Select(s => s.ToDomainModel());
         }
 
-        public async Task<Stock> GetByIdAsync(int id)
+        public async Task<StockDTO> GetByIdAsync(int id)
         {
-            return await _stockRepository.GetByIdAsync(id);
+            var stock = await _stockRepository.GetByIdAsync(id);
+            return stock?.ToDomainModel();
         }
 
-        public async Task AddAsync(Stock entity)
+        public async Task AddAsync(StockDTO stockDTO)
         {
-            await _stockRepository.AddAsync(entity);
+            var stock = stockDTO.ToEntity();
+            await _stockRepository.AddAsync(stock);
         }
 
-        public async Task UpdateAsync(Stock entity)
+        public async Task UpdateAsync(StockDTO stockDTO)
         {
-            await _stockRepository.UpdateAsync(entity);
+            var stock = stockDTO.ToEntity();
+            await _stockRepository.UpdateAsync(stock);
         }
 
         public async Task DeleteAsync(int id)

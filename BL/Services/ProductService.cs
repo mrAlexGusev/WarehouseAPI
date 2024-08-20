@@ -1,6 +1,7 @@
-﻿using WarehouseAPI.BL.Services.Interfaces;
+﻿using WarehouseAPI.BL.Domain;
+using WarehouseAPI.BL.Services.Interfaces;
 using WarehouseAPI.DAL.Data.Repositories.Abstract;
-using WarehouseAPI.DAL.Models;
+using WarehouseAPI.Extensions;
 
 namespace WarehouseAPI.BL.Services
 {
@@ -13,24 +14,28 @@ namespace WarehouseAPI.BL.Services
             _productRepository = productRepository;
         }
 
-        public async Task<IEnumerable<Product>> GetAllAsync()
+        public async Task<IEnumerable<ProductDTO>> GetAllAsync()
         {
-            return await _productRepository.GetAllAsync();
+            var products = await _productRepository.GetAllAsync();
+            return products.Select(p => p.ToDomainModel());
         }
 
-        public async Task<Product> GetByIdAsync(int id)
+        public async Task<ProductDTO> GetByIdAsync(int id)
         {
-            return await _productRepository.GetByIdAsync(id);
+            var product = await _productRepository.GetByIdAsync(id);
+            return product?.ToDomainModel();
         }
 
-        public async Task AddAsync(Product entity)
+        public async Task AddAsync(ProductDTO productDTO)
         {
-            await _productRepository.AddAsync(entity);
+            var product = productDTO.ToEntity();
+            await _productRepository.AddAsync(product);
         }
 
-        public async Task UpdateAsync(Product entity)
+        public async Task UpdateAsync(ProductDTO productDTO)
         {
-            await _productRepository.UpdateAsync(entity);
+            var product = productDTO.ToEntity();
+            await _productRepository.UpdateAsync(product);
         }
 
         public async Task DeleteAsync(int id)
