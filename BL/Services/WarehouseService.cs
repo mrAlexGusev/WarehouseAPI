@@ -1,6 +1,7 @@
-﻿using WarehouseAPI.BL.Services.Interfaces;
+﻿using WarehouseAPI.BL.Domain;
+using WarehouseAPI.BL.Services.Interfaces;
 using WarehouseAPI.DAL.Data.Repositories.Abstract;
-using WarehouseAPI.DAL.Entities;
+using WarehouseAPI.Extensions;
 
 namespace WarehouseAPI.BL.Services
 {
@@ -13,24 +14,28 @@ namespace WarehouseAPI.BL.Services
             _warehouseRepository = warehouseRepository;
         }
 
-        public async Task<IEnumerable<Warehouse>> GetAllAsync()
+        public async Task<IEnumerable<WarehouseDTO>> GetAllAsync()
         {
-            return await _warehouseRepository.GetAllAsync();
+            var warehouses = await _warehouseRepository.GetAllAsync();
+            return warehouses.Select(w => w.ToDomainModel());
         }
 
-        public async Task<Warehouse> GetByIdAsync(int id)
+        public async Task<WarehouseDTO> GetByIdAsync(int id)
         {
-            return await _warehouseRepository.GetByIdAsync(id);
+            var warehouse = await _warehouseRepository.GetByIdAsync(id);
+            return warehouse?.ToDomainModel();
         }
 
-        public async Task AddAsync(Warehouse entity)
+        public async Task AddAsync(WarehouseDTO warehouseDTO)
         {
-            await _warehouseRepository.AddAsync(entity);
+            var warehouse = warehouseDTO.ToEntity();
+            await _warehouseRepository.AddAsync(warehouse);
         }
 
-        public async Task UpdateAsync(Warehouse entity)
+        public async Task UpdateAsync(WarehouseDTO warehouseDTO)
         {
-            await _warehouseRepository.UpdateAsync(entity);
+            var warehouse = warehouseDTO.ToEntity();
+            await _warehouseRepository.UpdateAsync(warehouse);
         }
 
         public async Task DeleteAsync(int id)

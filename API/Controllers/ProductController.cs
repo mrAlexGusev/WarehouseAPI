@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
+using WarehouseAPI.API.Models;
+using WarehouseAPI.BL.Domain;
 using WarehouseAPI.BL.Services.Interfaces;
-using WarehouseAPI.DAL.Models;
 
 namespace WarehouseAPI.API.Controllers
 {
@@ -9,45 +11,51 @@ namespace WarehouseAPI.API.Controllers
     public class ProductController : ControllerBase
     {
         private readonly IProductService _productService;
+        private readonly IMapper _mapper;
 
-        public ProductController(IProductService productService)
+        public ProductController(IProductService productService, IMapper mapper)
         {
             _productService = productService;
+            _mapper = mapper;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Product>>> GetAll()
+        public async Task<ActionResult<IEnumerable<ProductModel>>> GetAll()
         {
-            var products = await _productService.GetAllAsync();
-            return Ok(products);
+            var productDTOs = await _productService.GetAllAsync();
+            var productModels = _mapper.Map<IEnumerable<ProductModel>>(productDTOs);
+            return Ok(productModels);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Product>> GetById(int id)
+        public async Task<ActionResult<ProductModel>> GetById(int id)
         {
-            var product = await _productService.GetByIdAsync(id);
-            if (product == null)
+            var productDTO = await _productService.GetByIdAsync(id);
+            if (productDTO == null)
             {
                 return NotFound();
             }
-            return Ok(product);
+            var productModel = _mapper.Map<ProductModel>(productDTO);
+            return Ok(productModel);
         }
 
         [HttpPost]
-        public async Task<ActionResult> Add(Product product)
+        public async Task<ActionResult> Add(ProductModel productModel)
         {
-            await _productService.AddAsync(product);
-            return CreatedAtAction(nameof(GetById), new { id = product.Id }, product);
+            var productDTO = _mapper.Map<ProductDTO>(productModel);
+            await _productService.AddAsync(productDTO);
+            return CreatedAtAction(nameof(GetById), new { id = productModel.Id }, productModel);
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult> Update(int id, Product product)
+        public async Task<ActionResult> Update(int id, ProductModel productModel)
         {
-            if (id != product.Id)
+            if (id != productModel.Id)
             {
                 return BadRequest();
             }
-            await _productService.UpdateAsync(product);
+            var productDTO = _mapper.Map<ProductDTO>(productModel);
+            await _productService.UpdateAsync(productDTO);
             return NoContent();
         }
 
